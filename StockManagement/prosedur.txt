@@ -1,0 +1,68 @@
+CREATE PROCEDURE GetInventoryStatement
+    @ProductCode NVARCHAR(50),
+    @StartDate DATETIME,
+    @EndDate DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    CREATE TABLE #Temp (
+        RowNumber INT IDENTITY(1,1),
+        TransactionType NVARCHAR(10),
+        DocumentNumber NVARCHAR(50),
+        Date NVARCHAR(15),
+        InboundQuantity DECIMAL(18, 2),
+        OutboundQuantity DECIMAL(18, 2),
+        StockBalance DECIMAL(18, 2)
+    );
+
+    DECLARE @stock DECIMAL(18, 2) = 0;
+
+    DECLARE cur CURSOR FOR
+        SELECT T.TransactionType, T.DocumentNumber, T.TransactionDate, T.Quantity
+        FROM InventoryTransactions T
+        INNER JOIN Products P ON P.Id = T.ProductId
+        WHERE P.ProductCode = @ProductCode AND T.TransactionDate BETWEEN @StartDate AND @EndDate
+        ORDER BY T.TransactionDate;
+
+    DECLARE @type INT, @doc NVARCHAR(50), @date DATETIME, @qty DECIMAL(18, 2);
+
+    OPEN cur;
+    FETCH NEXT FROM cur INTO @type, @doc, @date, @qty;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        IF @type = 0
+            SET @stock = @stock + @qty;
+        ELSE
+            SET @stock = @stock - @qty;
+
+        INSERT INTO #Temp (
+            TransactionType, DocumentNumber, Date, InboundQuantity, OutboundQuantity, StockBalance
+        )
+        VALUES (
+            CASE WHEN @type = 0 THEN 'Inbound' ELSE 'Outbound' END,
+            @doc,
+            CONVERT(VARCHAR(15), @date, 104),
+            CASE WHEN @type = 0 THEN @qty ELSE 0 END,
+            CASE WHEN @type = 1 THEN @qty ELSE 0 END,
+            @stock
+        );
+
+        FETCH NEXT FROM cur INTO @type, @doc, @date, @qty;
+    END;
+
+    CLOSE cur;
+    DEALLOCATE cur;
+
+    SELECT 
+    RowNumber,
+    TransactionType,
+    DocumentNumber,
+    Date AS TransactionDate,
+    InboundQuantity,
+    OutboundQuantity,
+    StockBalance
+FROM #Temp
+
+END;
