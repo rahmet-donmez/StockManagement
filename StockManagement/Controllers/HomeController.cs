@@ -1,16 +1,19 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using StockManagement.Models;
+using StockManagement.Services;
 
 namespace StockManagement.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ProductService _productService;
+
+        public HomeController(ProductService productService)
         {
-            _logger = logger;
+            _productService = productService;
         }
 
         public IActionResult Index()
@@ -18,15 +21,15 @@ namespace StockManagement.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public async Task<IActionResult> Statement(string productCode, DateTime startDate, DateTime endDate)
         {
-            return View();
-        }
+            int startInt = Convert.ToInt32(startDate.ToOADate());
+            int endInt = Convert.ToInt32(endDate.ToOADate());
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var result = await _productService.InventoryListAsync(productCode, startDate, endDate);
+
+            return View(result);
         }
     }
 }

@@ -12,15 +12,16 @@ namespace StockManagement.Repositories
             _context = context;
         }
 
-        public async Task<List<InventoryStatementDto>> InventoryListAsync(string productCode, int startInt, int endInt)
+        public async Task<List<InventoryStatementDto>> InventoryListAsync(string productCode, DateTime startDate, DateTime endDate)
         {
             var result = await _context.InventoryStatement
-                       .FromSqlRaw("EXEC GetInventoryStatement @ProductCode = {0}, @StartDate = {1}, @EndDate = {2}",
-                           productCode, startInt, endInt)
-                       .ToListAsync();
+                .FromSqlRaw("EXEC GetInventoryStatement @ProductCode = {0}, @StartDate = {1}, @EndDate = {2}",
+                    productCode, startDate, endDate)
+                .ToListAsync();
 
             return result;
         }
+
 
     }
 }

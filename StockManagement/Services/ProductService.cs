@@ -15,9 +15,10 @@ namespace StockManagement.Services
         public async Task<List<InventoryStatementDto>> InventoryListAsync(string productCode, DateTime startDate, DateTime endDate)
         {
             int startInt = Convert.ToInt32(startDate.ToOADate());
-            int endInt = Convert.ToInt32(endDate.ToOADate());
-            var result = await _productRepository.InventoryListAsync(productCode, startInt, endInt);
+            int endDateendInt = Convert.ToInt32(endDate.ToOADate());
+            var result = await _productRepository.InventoryListAsync(productCode, startDate, endDate);
 
+            
             return result;
         }
     }

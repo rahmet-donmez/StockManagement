@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Stok Hareketleri";
+}
+@model List<StockManagement.Dtos.InventoryStatementDto>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Stok Hareket Listesi</h2>
+
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+            <button class="btn btn-success me-2" onclick="exportToExcel()">
+                <i class="fas fa-file-excel me-2"></i>Excel'e Aktar
+            </button>
+            <button class="btn btn-primary" onclick="printTable()">
+                <i class="fas fa-print me-2"></i>Yazdır
+            </button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="statementTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>İşlem Tipi</th>
+                    <th>Evrak No</th>
+                    <th>İşlem Tarihi</th>
+                    <th>Giriş Miktarı</th>
+                    <th>Çıkış Miktarı</th>
+                    <th>Stok Miktarı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.RowNumber</td>
+                        <td>@(item.TransactionType == "Inbound" ? "Giriş" : "Çıkış")</td>
+                        <td>@item.DocumentNumber</td>
+                        <td>@item.TransactionDate</td>
+                        <td class="text-end">@item.InboundQuantity.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</td>
+                        <td class="text-end">@item.OutboundQuantity.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</td>
+                        <td class="text-end">@item.StockBalance.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .table-responsive {
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .table th {
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+    </style>
+}

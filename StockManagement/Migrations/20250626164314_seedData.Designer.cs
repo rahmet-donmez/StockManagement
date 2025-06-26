@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StockManagement.Repositories;
 
@@ -11,9 +12,10 @@ using StockManagement.Repositories;
 namespace StockManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250626164314_seedData")]
+    partial class seedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,21 +30,14 @@ namespace StockManagement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("InboundQuantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("OutboundQuantity")
+                    b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("RowNumber")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("StockBalance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("TransactionDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TransactionType")
                         .IsRequired()
@@ -89,7 +84,7 @@ namespace StockManagement.Migrations
                             ProductId = 1,
                             Quantity = 100m,
                             TransactionDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         },
                         new
                         {
@@ -98,7 +93,7 @@ namespace StockManagement.Migrations
                             ProductId = 1,
                             Quantity = 20m,
                             TransactionDate = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 1
+                            TransactionType = 2
                         },
                         new
                         {
@@ -107,7 +102,7 @@ namespace StockManagement.Migrations
                             ProductId = 1,
                             Quantity = 50m,
                             TransactionDate = new DateTime(2024, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         },
                         new
                         {
@@ -116,7 +111,7 @@ namespace StockManagement.Migrations
                             ProductId = 1,
                             Quantity = 30m,
                             TransactionDate = new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 1
+                            TransactionType = 2
                         },
                         new
                         {
@@ -125,7 +120,7 @@ namespace StockManagement.Migrations
                             ProductId = 1,
                             Quantity = 70m,
                             TransactionDate = new DateTime(2024, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         },
                         new
                         {
@@ -134,7 +129,7 @@ namespace StockManagement.Migrations
                             ProductId = 2,
                             Quantity = 120m,
                             TransactionDate = new DateTime(2024, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         },
                         new
                         {
@@ -143,7 +138,7 @@ namespace StockManagement.Migrations
                             ProductId = 2,
                             Quantity = 25m,
                             TransactionDate = new DateTime(2024, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 1
+                            TransactionType = 2
                         },
                         new
                         {
@@ -152,7 +147,7 @@ namespace StockManagement.Migrations
                             ProductId = 2,
                             Quantity = 80m,
                             TransactionDate = new DateTime(2024, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         },
                         new
                         {
@@ -161,7 +156,7 @@ namespace StockManagement.Migrations
                             ProductId = 2,
                             Quantity = 40m,
                             TransactionDate = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 1
+                            TransactionType = 2
                         },
                         new
                         {
@@ -170,7 +165,7 @@ namespace StockManagement.Migrations
                             ProductId = 2,
                             Quantity = 100m,
                             TransactionDate = new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         },
                         new
                         {
@@ -179,7 +174,7 @@ namespace StockManagement.Migrations
                             ProductId = 3,
                             Quantity = 90m,
                             TransactionDate = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         },
                         new
                         {
@@ -188,7 +183,7 @@ namespace StockManagement.Migrations
                             ProductId = 3,
                             Quantity = 15m,
                             TransactionDate = new DateTime(2024, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 1
+                            TransactionType = 2
                         },
                         new
                         {
@@ -197,7 +192,7 @@ namespace StockManagement.Migrations
                             ProductId = 3,
                             Quantity = 60m,
                             TransactionDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         },
                         new
                         {
@@ -206,7 +201,7 @@ namespace StockManagement.Migrations
                             ProductId = 3,
                             Quantity = 25m,
                             TransactionDate = new DateTime(2024, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 1
+                            TransactionType = 2
                         },
                         new
                         {
@@ -215,7 +210,7 @@ namespace StockManagement.Migrations
                             ProductId = 3,
                             Quantity = 110m,
                             TransactionDate = new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = 0
+                            TransactionType = 1
                         });
                 });
 
